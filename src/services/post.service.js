@@ -1,6 +1,6 @@
 import { axiosInstance } from "../helpers/axiosInstance";
 
-export class postService {
+export class PostService {
   createPost = async () => {
     try {
       const response = await axiosInstance.post(`/posts/create-post`, {
@@ -12,7 +12,10 @@ export class postService {
       });
       return response.data;
     } catch (error) {
-      console.log("Error while creating the post", error.message);
+      console.log(
+        "Error while creating the post:",
+        error.response.data.message
+      );
     }
   };
 
@@ -21,7 +24,10 @@ export class postService {
       const response = await axiosInstance.get(`/posts/get-posts`);
       return response.data;
     } catch (error) {
-      console.log("Error while fetching all posts", error.message);
+      console.log(
+        "Error while fetching all posts:",
+        error.response.data.message
+      );
     }
   };
 
@@ -30,7 +36,10 @@ export class postService {
       const response = await axiosInstance.get(`/posts/${post_id}`);
       return response.data;
     } catch (error) {
-      console.log("Error while fetching single post", error.message);
+      console.log(
+        "Error while fetching single post:",
+        error.response.data.message
+      );
     }
   };
 
@@ -41,16 +50,55 @@ export class postService {
       );
       return response.data;
     } catch (error) {
-      console.log("Error while updating the post", error.message);
+      console.log(
+        "Error while updating the post:",
+        error.response.data.message
+      );
     }
   };
 
   updateFeaturedImage = async (image_id) => {
     try {
-      const response = await axiosInstance(`/posts/update-image/${image_id}`);
+      const response = await axiosInstance.patch(
+        `/posts/update-image/${image_id}`
+      );
       return response.data;
     } catch (error) {
-      console.log("Error which updating the image", error.message);
+      console.log(
+        "Error which updating the image:",
+        error.response.data.message
+      );
+    }
+  };
+
+  deletePost = async (slug_id) => {
+    try {
+      const response = await axiosInstance.delete(
+        `/posts/delete-post/${slug_id}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log(
+        "Error while deleting the post:",
+        error.response.data.message
+      );
+    }
+  };
+
+  deleteFeaturedImage = async (image_id) => {
+    try {
+      const response = await axiosInstance.delete(
+        `/posts/delete-image/${image_id}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log(
+        "Error while deleting the featuredImage:",
+        error.response.data.message
+      );
     }
   };
 }
+
+const postService = new postService();
+export { postService };
