@@ -1,7 +1,7 @@
 import { axiosInstance } from "../helpers/axiosInstance";
 
 export class PostService {
-  createPost = async () => {
+  createPost = async ({ title, slug, content, featuredImage, status }) => {
     try {
       const response = await axiosInstance.post(`/posts/create-post`, {
         title,
@@ -43,10 +43,11 @@ export class PostService {
     }
   };
 
-  updatePost = async (slug_id) => {
+  updatePost = async (slug_id, { title, content, featuredImage, status }) => {
     try {
       const response = await axiosInstance.patch(
-        `/posts/update-post/${slug_id}`
+        `/posts/update-post/${slug_id}`,
+        { title, slug: slug_id, content, featuredImage, status }
       );
       return response.data;
     } catch (error) {
