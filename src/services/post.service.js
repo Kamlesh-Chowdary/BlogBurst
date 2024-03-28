@@ -3,13 +3,21 @@ import { axiosInstance } from "../helpers/axiosInstance";
 export class PostService {
   createPost = async ({ title, slug, content, featuredImage, status }) => {
     try {
-      const response = await axiosInstance.post(`/posts/create-post`, {
-        title,
-        slug,
-        content,
-        featuredImage,
-        status,
-      });
+      const response = await axiosInstance.post(
+        `/posts/create-post`,
+        {
+          title,
+          slug,
+          content,
+          featuredImage,
+          status,
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       return response.data;
     } catch (error) {
       console.log(
@@ -47,7 +55,12 @@ export class PostService {
     try {
       const response = await axiosInstance.patch(
         `/posts/update-post/${slug_id}`,
-        { title, slug: slug_id, content, featuredImage, status }
+        { title, slug: slug_id, content, featuredImage, status },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
       return response.data;
     } catch (error) {
@@ -86,10 +99,10 @@ export class PostService {
     }
   };
 
-  deleteFeaturedImage = async (image_id) => {
+  deleteFeaturedImage = async (image_url) => {
     try {
       const response = await axiosInstance.delete(
-        `/posts/delete-image/${image_id}`
+        `/posts/delete-image/${image_url}`
       );
       return response.data;
     } catch (error) {

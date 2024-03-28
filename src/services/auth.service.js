@@ -8,12 +8,16 @@ export class AuthService {
         fullname,
         password,
       });
+      if (response) {
+        return this.loginUser({ email, password });
+      }
       return response.data;
     } catch (error) {
       console.log(
         "Error while creating account :",
         error.response.data.message
       );
+      throw error.response.data;
     }
   };
 
@@ -26,6 +30,7 @@ export class AuthService {
       return response.data;
     } catch (error) {
       console.log("Error while logging in:", error.response.data.message);
+      throw error;
     }
   };
 
@@ -34,6 +39,7 @@ export class AuthService {
       await axiosInstance.post(`/users/logout`);
     } catch (error) {
       console.log("Error while loggin out:", error.response.data.message);
+      throw error;
     }
   };
 
@@ -51,7 +57,7 @@ export class AuthService {
 
   currentUsersPosts = async () => {
     try {
-      const response = await axiosInstance.get(`/users/users-post`);
+      const response = await axiosInstance.get(`/users/user-posts`);
       return response.data;
     } catch (error) {
       console.log(
