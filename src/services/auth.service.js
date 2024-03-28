@@ -40,7 +40,7 @@ export class AuthService {
   currentUser = async () => {
     try {
       const response = await axiosInstance.get(`/users/current-user`);
-      return response.data;
+      return response.data.data;
     } catch (error) {
       console.log(
         "Error while fetching current user details:",

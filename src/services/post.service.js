@@ -22,7 +22,7 @@ export class PostService {
   getAllPosts = async () => {
     try {
       const response = await axiosInstance.get(`/posts/get-posts`);
-      return response.data;
+      return response.data.data;
     } catch (error) {
       console.log(
         "Error while fetching all posts:",
@@ -101,5 +101,5 @@ export class PostService {
   };
 }
 
-const postService = new postService();
-export { postService };
+const postService = new PostService();
+export default postService;
