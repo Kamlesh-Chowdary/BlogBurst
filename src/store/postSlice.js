@@ -1,4 +1,4 @@
-import { createAction, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   loading: true,
@@ -30,7 +30,7 @@ const postSlice = createSlice({
     },
 
     setLoading: (state, action) => {
-      state.loading = state.action;
+      state.loading = action.payload;
     },
   },
 });
