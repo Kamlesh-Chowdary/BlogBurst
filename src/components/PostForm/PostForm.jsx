@@ -6,7 +6,6 @@ import { useDispatch } from "react-redux";
 import { Button, RTE, Input, Select } from "../index";
 import { addPost, updatePost } from "../../store/postSlice";
 const PostForm = ({ post }) => {
-  console.log(post);
   const { register, handleSubmit, watch, setValue, control, getValues } =
     useForm({
       defaultValues: {
@@ -22,22 +21,27 @@ const PostForm = ({ post }) => {
 
   const submit = async (data) => {
     if (post) {
-      setError("");
-      try {
-        console.log(post.featuredImage);
-        postService.deleteFeaturedImage(post.featuredImage);
-      } catch (error) {
-        setError(error.message);
+      const file = data.featuredImage[0]
+        ? await postService.updateFeaturedImage(data.featuredImage[0])
+        : null;
+
+      if (file) {
+        setError("");
+        try {
+          const deletedImage = await postService.deleteFeaturedImage(post._id);
+        } catch (error) {
+          setError(error.message);
+        }
       }
 
-      const dbPost = await postService.updatePost(post.$id, {
+      const dbPost = await postService.updatePost(post.slug, {
         ...data,
-        featuredImage: data.featuredImage ? data.featuredImage[0] : undefined,
+        featuredImage: file ? file.data : post.featuredImage,
       });
 
       if (dbPost) {
-        dispatch(updatePost(dbPost));
-        navigate(`/post/${dbPost.slug}`);
+        dispatch(updatePost(dbPost.data));
+        navigate(`/post/${dbPost.data.slug}`);
       }
     } else {
       const dbPost = await postService.createPost({
@@ -46,8 +50,8 @@ const PostForm = ({ post }) => {
       });
 
       if (dbPost) {
-        dispatch(addPost(dbPost));
-        navigate(`/post/${dbPost.slug}`);
+        dispatch(addPost(dbPost.data));
+        navigate(`/post/${dbPost.data.slug}`);
       }
     }
   };

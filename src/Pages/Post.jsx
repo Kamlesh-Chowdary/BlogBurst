@@ -11,8 +11,7 @@ export default function Post() {
   const navigate = useNavigate();
   const userData = useSelector((state) => state.auth.userData);
   const dispatch = useDispatch();
-  const isAuthor = post && userData ? post.userId === userData.$id : false;
-  const allPosts = useSelector((state) => state.post.posts);
+  const isAuthor = post && userData ? post.owner._id === userData._id : false;
 
   useEffect(() => {
     if (slug) {
@@ -20,9 +19,10 @@ export default function Post() {
         setPost(singlePost.data);
       });
     } else navigate("/");
-  }, [slug, navigate, allPosts]);
+  }, []);
 
   const deletePost = () => {
+    postService.deleteFeaturedImage(post._id);
     postService.deletePost(post.slug).then((status) => {
       if (status) {
         dispatch(deletePostSlice(post._id));
