@@ -2,19 +2,18 @@ import React, { useState, useEffect } from "react";
 import { Container, LoadingComponent, PostForm } from "../components/index";
 import { useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
-
+import postService from "../services/post.service";
 const EditPost = () => {
   const [post, setPost] = useState([]);
   const loading = useSelector((state) => state.post.loading);
   const { slug } = useParams();
-  const allPosts = useSelector((state) => state.post.posts);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (slug) {
-      if (allPosts) {
-        allPosts.map((post) => (slug === post.slug ? setPost(post) : null));
-      }
+      postService.getSinglePost(slug).then((singlePost) => {
+        setPost(singlePost.data);
+      });
     } else {
       navigate("/");
     }

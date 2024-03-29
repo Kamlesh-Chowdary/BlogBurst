@@ -42,7 +42,7 @@ const Header = () => {
   return (
     <header className="py-3 shadow bg-gray-500 ">
       <Container>
-        <nav className="flex justify-between">
+        <nav className="flex justify-between items-center">
           <div className="mr-4">
             <NavLink to="/">
               <Logo />

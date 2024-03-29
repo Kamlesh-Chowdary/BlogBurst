@@ -12,19 +12,16 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    authService
-      .currentUser()
-      .then((userData) => {
-        if (userData) {
-          dispatch(login(userData));
-          postService.getAllPosts().then((posts) => {
-            if (posts) dispatch(setPosts(posts));
-          });
-        } else dispatch(logout());
-      })
-      .finally(() => {
-        dispatch(setLoading(false));
-      });
+    (async () => {
+      const userData = await authService.currentUser();
+      console.log("Inside useEffect but outside userData");
+      if (userData) {
+        dispatch(login(userData));
+      } else {
+        dispatch(logout());
+      }
+      dispatch(setLoading(false));
+    })();
   }, []);
 
   return !loading ? (

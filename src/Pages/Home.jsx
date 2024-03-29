@@ -6,12 +6,27 @@ import {
   PostCard,
 } from "../components/index";
 import { useSelector } from "react-redux";
-
+import { useEffect } from "react";
+import { setPosts } from "../store/postSlice";
+import postService from "../services/post.service";
+import { useDispatch } from "react-redux";
 function Home() {
   const loading = useSelector((state) => state.post.loading);
   const posts = useSelector((state) => state.post.posts);
   const userData = useSelector((state) => state.auth.userData);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (userData) {
+      (async () => {
+        const posts = await postService.getAllPosts();
+        if (posts) {
+          dispatch(setPosts(posts));
+        }
+      })();
+    }
+  }, []);
 
   if (!userData) {
     return (
