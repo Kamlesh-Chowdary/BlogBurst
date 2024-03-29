@@ -14,7 +14,7 @@ const postSlice = createSlice({
     },
 
     addPost: (state, action) => {
-      state.posts = state.posts.push(action.payload);
+      state.posts.push(action.payload);
     },
 
     updatePost: (state, action) => {
@@ -24,9 +24,7 @@ const postSlice = createSlice({
     },
 
     deletePost: (state, action) => {
-      state.posts = state.posts.filter(
-        (post) => post._id !== action.payload._id
-      );
+      state.posts = state.posts.filter((post) => post._id !== action.payload);
     },
 
     setLoading: (state, action) => {
