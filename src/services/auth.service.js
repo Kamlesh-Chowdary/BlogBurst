@@ -30,7 +30,7 @@ export class AuthService {
       return response.data;
     } catch (error) {
       console.log("Error while logging in:", error.response.data.message);
-      throw error;
+      throw error.response.data;
     }
   };
 

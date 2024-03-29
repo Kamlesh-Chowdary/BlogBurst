@@ -51,16 +51,14 @@ export class PostService {
     }
   };
 
-  updatePost = async (slug_id, { title, content, featuredImage, status }) => {
+  updatePost = async (
+    slug_id,
+    { title, slug, content, featuredImage, status }
+  ) => {
     try {
       const response = await axiosInstance.patch(
         `/posts/update-post/${slug_id}`,
-        { title, slug: slug_id, content, featuredImage, status },
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
+        { title, slug, content, featuredImage, status }
       );
       return response.data;
     } catch (error) {
@@ -71,10 +69,16 @@ export class PostService {
     }
   };
 
-  updateFeaturedImage = async (image_id) => {
+  updateFeaturedImage = async (featuredImage) => {
     try {
-      const response = await axiosInstance.patch(
-        `/posts/update-image/${image_id}`
+      const response = await axiosInstance.post(
+        `/posts/update-image`,
+        { featuredImage },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
       return response.data;
     } catch (error) {
@@ -99,10 +103,11 @@ export class PostService {
     }
   };
 
-  deleteFeaturedImage = async (image_url) => {
+  deleteFeaturedImage = async (post_id) => {
     try {
+      console.log(post_id);
       const response = await axiosInstance.delete(
-        `/posts/delete-image/${image_url}`
+        `/posts/delete-image/${post_id}`
       );
       return response.data;
     } catch (error) {
