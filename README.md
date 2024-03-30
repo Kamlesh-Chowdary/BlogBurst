@@ -75,3 +75,7 @@ BlogBurst is built on a foundation of modern technologies:
 5. **Run the Project:**
 
    - npm run dev
+
+## Contributing
+
+If you wish to contribute to this project, please feel free to contribute.
