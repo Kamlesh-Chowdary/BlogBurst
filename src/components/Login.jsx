@@ -6,8 +6,6 @@ import authService from "../services/auth.service";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import postService from "../services/post.service";
-import { setPosts } from "../store/postSlice";
 
 const Login = () => {
   const [errors, setErrors] = useState("");

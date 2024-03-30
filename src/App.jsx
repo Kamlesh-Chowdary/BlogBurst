@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Header, Footer, LoadingComponent } from "./components/index";
 import authService from "./services/auth.service";
-import postService from "./services/post.service";
 import { useDispatch, useSelector } from "react-redux";
 import { login, logout } from "./store/authSlice";
-import { setLoading, setPosts } from "./store/postSlice";
+import { setLoading } from "./store/postSlice";
 import { Outlet } from "react-router-dom";
 
 const App = () => {
@@ -14,7 +13,6 @@ const App = () => {
   useEffect(() => {
     (async () => {
       const userData = await authService.currentUser();
-      console.log("Inside useEffect but outside userData");
       if (userData) {
         dispatch(login(userData));
       } else {

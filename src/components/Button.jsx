@@ -1,5 +1,3 @@
-import React, { Children } from "react";
-
 const Button = ({
   children,
   type = "button",

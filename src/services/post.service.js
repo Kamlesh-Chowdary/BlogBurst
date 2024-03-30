@@ -105,7 +105,6 @@ export class PostService {
 
   deleteFeaturedImage = async (post_id) => {
     try {
-      console.log(post_id);
       const response = await axiosInstance.delete(
         `/posts/delete-image/${post_id}`
       );
