@@ -28,7 +28,7 @@ const PostForm = ({ post }) => {
       if (file) {
         setError("");
         try {
-          const deletedImage = await postService.deleteFeaturedImage(post._id);
+          await postService.deleteFeaturedImage(post._id);
         } catch (error) {
           setError(error.message);
         }

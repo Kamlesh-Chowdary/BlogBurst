@@ -21,14 +21,17 @@ export default function Post() {
     } else navigate("/");
   }, []);
 
-  const deletePost = () => {
-    postService.deleteFeaturedImage(post._id);
-    postService.deletePost(post.slug).then((status) => {
+  const deletePost = async () => {
+    const isFeaturedImageDeleted = await postService.deleteFeaturedImage(
+      post._id
+    );
+    if (isFeaturedImageDeleted) {
+      const status = await postService.deletePost(post.slug);
       if (status) {
         dispatch(deletePostSlice(post._id));
         navigate("/");
       }
-    });
+    }
   };
 
   return post ? (
