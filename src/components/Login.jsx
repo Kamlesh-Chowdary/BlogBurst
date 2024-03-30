@@ -12,6 +12,26 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
+  const demoEmail = import.meta.env.VITE_DEMO_EMAIL;
+  const demoPassword = import.meta.env.VITE_DEMO_PASSWORD;
+
+  const handleDemoLogin = async () => {
+    try {
+      const session = await authService.loginUser({
+        email: demoEmail,
+        password: demoPassword,
+      });
+      if (session) {
+        const userData = await authService.currentUser();
+        if (userData) {
+          dispatch(login(userData));
+        }
+        navigate("/");
+      }
+    } catch (error) {
+      setErrors(error.message);
+    }
+  };
 
   const handleLogin = async (data) => {
     setErrors("");
@@ -71,9 +91,15 @@ const Login = () => {
                 required: true,
               })}
             />
-            <Button type="submit" className="w-full">
-              Sign in
-            </Button>
+            <div className="space-y-2.5">
+              <Button type="submit" className="w-full">
+                Sign in
+              </Button>
+              <p className="text-center">or</p>
+              <Button className="w-full" onClick={handleDemoLogin}>
+                Login with Demo Credentials
+              </Button>
+            </div>
           </div>
         </form>
       </div>
