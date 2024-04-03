@@ -15,6 +15,7 @@ export class PostService {
         {
           headers: {
             "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
           },
         }
       );
@@ -29,7 +30,12 @@ export class PostService {
 
   getAllPosts = async () => {
     try {
-      const response = await axiosInstance.get(`/posts/get-posts`);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+        },
+      };
+      const response = await axiosInstance.get(`/posts/get-posts`, config);
       return response.data.data;
     } catch (error) {
       console.log(
@@ -41,7 +47,12 @@ export class PostService {
 
   getSinglePost = async (post_id) => {
     try {
-      const response = await axiosInstance.get(`/posts/${post_id}`);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+        },
+      };
+      const response = await axiosInstance.get(`/posts/${post_id}`, config);
       return response.data;
     } catch (error) {
       console.log(
@@ -56,9 +67,15 @@ export class PostService {
     { title, slug, content, featuredImage, status }
   ) => {
     try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+        },
+      };
       const response = await axiosInstance.patch(
         `/posts/update-post/${slug_id}`,
-        { title, slug, content, featuredImage, status }
+        { title, slug, content, featuredImage, status },
+        config
       );
       return response.data;
     } catch (error) {
@@ -77,6 +94,7 @@ export class PostService {
         {
           headers: {
             "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
           },
         }
       );
@@ -91,8 +109,14 @@ export class PostService {
 
   deletePost = async (slug_id) => {
     try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+        },
+      };
       const response = await axiosInstance.delete(
-        `/posts/delete-post/${slug_id}`
+        `/posts/delete-post/${slug_id}`,
+        config
       );
       return response.data;
     } catch (error) {
@@ -105,8 +129,14 @@ export class PostService {
 
   deleteFeaturedImage = async (post_id) => {
     try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+        },
+      };
       const response = await axiosInstance.delete(
-        `/posts/delete-image/${post_id}`
+        `/posts/delete-image/${post_id}`,
+        config
       );
       return response.data;
     } catch (error) {

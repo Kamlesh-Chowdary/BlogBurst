@@ -27,6 +27,10 @@ export class AuthService {
         email,
         password,
       });
+      window.sessionStorage.setItem(
+        "accessToken",
+        response.data.data.accessToken
+      );
       return response.data;
     } catch (error) {
       console.log("Error while logging in:", error.response.data.message);
@@ -36,7 +40,13 @@ export class AuthService {
 
   logoutUser = async () => {
     try {
-      await axiosInstance.post(`/users/logout`);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+        },
+      };
+      await axiosInstance.post(`/users/logout`, {}, config);
+      window.sessionStorage.setItem("accessToken", "");
     } catch (error) {
       console.log("Error while loggin out:", error.response.data.message);
       throw error;
@@ -45,7 +55,12 @@ export class AuthService {
 
   currentUser = async () => {
     try {
-      const response = await axiosInstance.get(`/users/current-user`);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+        },
+      };
+      const response = await axiosInstance.get(`/users/current-user`, config);
       return response.data.data;
     } catch (error) {
       console.log(
@@ -57,7 +72,12 @@ export class AuthService {
 
   currentUsersPosts = async () => {
     try {
-      const response = await axiosInstance.get(`/users/user-posts`);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+        },
+      };
+      const response = await axiosInstance.get(`/users/user-posts`, config);
       return response.data;
     } catch (error) {
       console.log(
